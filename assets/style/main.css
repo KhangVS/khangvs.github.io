@@ -20,8 +20,12 @@
     font-family: monospace;
     display: inline-block;
     padding: 16px;
-    margin: 0px 10px 0px 10px;
+    margin: 0px 10px 0px 0px;
     position: relative;
+}
+
+.menu{
+    position: absolute;
 }
 
 .button:hover{
@@ -40,4 +44,8 @@
     height: 2px;
     transition: all 0.5s;
     margin: auto;
+}
+
+.none-after::after{
+    display: none;
 }
