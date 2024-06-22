@@ -1,5 +1,5 @@
 
-fetch('./testdatabase.xlsx')
+fetch('../../testdatabase.xlsx')
 	.then(response => response.arrayBuffer())
 	.then(data => {
         const workbook = XLSX.read(data, { type: 'array' });
@@ -43,7 +43,7 @@ fetch('./testdatabase.xlsx')
       .catch(error => console.error('Lỗi r ae =_))', error));
 
 function RenderMoreAboutProducts(value){
-    fetch('./testdatabase.xlsx')
+    fetch('../../testdatabase.xlsx')
         .then(response => response.arrayBuffer())
         .then(data => {
             const workbook = XLSX.read(data, { type: 'array' });
