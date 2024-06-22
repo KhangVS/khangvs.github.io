@@ -49,3 +49,42 @@
 .none-after::after{
     display: none;
 }
+
+.slider{
+    margin: 0px 2% 0px 12%;
+    display: flex;
+    float: right;
+    flex-wrap: wrap;
+}
+
+.products{
+    margin: 5px;
+    cursor: pointer;
+    border: 2.5px solid gray;
+    display: inline-block;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.describe{
+    
+}
+
+.detail{
+    cursor: pointer;
+    border: none;
+    background-color: cornflowerblue;
+    font-size: 16px;
+    color: white;
+    padding: 6px 16px;
+    margin-bottom: 10px;
+}
+
+.detail:hover{
+    background-color: rgb(76, 130, 232);
+}
+
+.image{
+    width: 300px;
+    height: 300px;
+}
