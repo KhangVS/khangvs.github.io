@@ -21,15 +21,15 @@ fetch('../../testdatabase.xlsx')
 			let ok = false;
 			let newProduct = `<div class="products" id = ${count} onclick="RenderMoreAboutProducts(this.id)">`
 			newProduct += `<div class="describe">`
-			newProduct += `<div class="image"><img src="./assets/img/air-jordan-legacy-312.png" width="300px" class="render-image"></div>`
-        //   row.forEach((cell) => {
+			 //   row.forEach((cell) => {
 			// if(cell == 1){
               row.forEach((smallCell,pos)=>{
-				if(pos == 1) newProduct += `<div class="name-products"><p>${smallCell}</p></div>`;
-				if(pos == 2) newProduct += `<div class="price-tag">Price: ${smallCell}$</div>`;
+                if(pos == 1) newProduct += `<div class="image"><img src="${smallCell}" width="300px" class="render-image"></div>`
+				if(pos == 2) newProduct += `<div class="name-products"><p>Type: ${smallCell}</p></div>`;
+				if(pos == 3) newProduct += `<div class="price-tag">Price: ${smallCell}</div>`;
 				else ok = true;
               })
-			newProduct += `<button class="detail">Show More</button>`;
+			newProduct += `<button class="detail"><a href="more.html">Show More</a></button>`;
 			newProduct += `</div>`;newProduct += `</div>`;
             count++;
 			if(ok) document.querySelector('.slider').innerHTML += newProduct;
@@ -59,6 +59,7 @@ function RenderMoreAboutProducts(value){
                 row.forEach((cell) => {
                     if(rowIndex > 0){
                         if(cell == value){
+                            localStorage.setItem("id", value);
                             row.forEach((smallCell,pos) =>{
                                 console.log(smallCell + " ");
                             })
