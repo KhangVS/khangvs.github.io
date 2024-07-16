@@ -1,0 +1,125 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode header {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode .button {
+    background-color: #333;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+body.dark-mode button[type="submit"] {
+    background-color: #444;
+    color: #ffffff;
+}
+
+body.dark-mode .footer {
+    background-color: #1e1e1e;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f8f8;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu i {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.header {
+    display: flex;
+}
+
+.button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #333;
+}
+
+.dark-mode-toggle {
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    margin-left: 20px;
+}
+
+/* Main Content Styles */
+.main {
+    padding: 20px;
+}
+
+.main h2 {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Footer Styles */
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f8f8f8;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
