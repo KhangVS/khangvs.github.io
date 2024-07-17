@@ -8,6 +8,10 @@ body {
     cursor: url('../img/cursor/camera.png'), auto;
 }
 
+body {
+    cursor: url('../img/cursor/camera.png'), auto;
+}
+
 .header {
     background-color: rgb(36, 36, 36);
     width: 100%;
@@ -59,6 +63,9 @@ body {
     /* display: flex; */
     float: left;
     /* flex-wrap: wrap; */
+    /* display: flex; */
+    float: left;
+    /* flex-wrap: wrap; */
 }
 
 .products {
@@ -72,6 +79,98 @@ body {
     display: inline-block;
     text-align: center;
     border-radius: 5px;
+}
+
+.search-bar {
+    width: 85.5vw;
+    margin: 10px 0px 5px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disable {
+    display: none;
+}
+
+.new-add {
+    position: absolute;
+    right: 16px;
+    top: 30px;
+    color: white;
+    background: red;
+    border-radius: 50%;
+    font-size: 15px;
+    padding: 2px 8px;
+    font-weight: 400;
+    font-family: fantasy;
+    z-index: 10;
+}
+
+
+.search-bar input {
+    padding: 5px 10px;
+    border-radius: 25px;
+    width: 36%;
+    font-size: 17px;
+    outline: none;
+}
+
+.disable {
+    display: none;
+}
+
+.search-bar i {
+    cursor: pointer;
+    position: absolute;
+    right: 31%;
+    font-size: 20px;
+}
+
+.search-bar {
+    width: 85.5vw;
+    margin: 10px 0px 5px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.disable {
+    display: none;
+}
+
+.new-add {
+    position: absolute;
+    right: 16px;
+    top: 30px;
+    color: white;
+    background: red;
+    border-radius: 50%;
+    font-size: 15px;
+    padding: 2px 8px;
+    font-weight: 400;
+    font-family: fantasy;
+    z-index: 10;
+}
+
+
+.search-bar input {
+    padding: 5px 10px;
+    border-radius: 25px;
+    width: 36%;
+    font-size: 17px;
+    outline: none;
+}
+
+.disable {
+    display: none;
+}
+
+.search-bar i {
+    cursor: pointer;
+    position: absolute;
+    right: 31%;
+    font-size: 20px;
 }
 
 .search-bar {
