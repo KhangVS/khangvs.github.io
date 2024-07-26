@@ -515,6 +515,24 @@ input:checked~.checkmark:after {
     font-size: 17px;
 }
 
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
 .fa-times {
     position: absolute;
     top: 0;
@@ -733,21 +751,33 @@ input:checked~.checkmark:after {
 }
 
 .payment-success-box {
-    background-color: white;
+    position: absolute;
+    left: 43%;
+    top: 10%;
+    background-color: rgb(255, 255, 255);
     border: 2px solid #dcdcdc;
     border-radius: 16px;
     padding: 10px 20px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     gap: 10px;
     width: 315px;
     flex-wrap: wrap;
     border-bottom: rgb(25, 166, 25) 3px solid;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    transition: all 1s move;
+}
+
+@keyframes move {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(250px);
+    }
 }
 
 .success-icon .fas {

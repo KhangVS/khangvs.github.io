@@ -118,7 +118,6 @@ function RemoveModal() {
 
 function Copy(id) {
     setTimeout(() => {
-        // copiedMessage.style.display = 'none';
         document.querySelector("." + id).classList.remove('fa-copy');
         document.querySelector("." + id).classList.add('fa-check');
         setTimeout(() => {
@@ -151,8 +150,7 @@ function RemoveFromCart(btnId) {
             document.querySelector(`.product-shoes[value="${product.id}"]`).remove();
         }
         if (Products.length == 0) {
-            localStorage.removeItem('products');
-            document.querySelector("#checkGio").innerHTML = "Hãy thêm vào giỏ hàng để lựa chọn thanh toán";
+            localStorage.removeItem('products')
         }
     })
 }
@@ -221,9 +219,13 @@ if (!localStorage.getItem("products")) PaidSuccessTotal = true;
 // THANH TOAN DON HANG idTransfer- Ma GD ACSP/ mR124751
 
 document.querySelector('.ClickedBuy').addEventListener("click", () => {
-    document.querySelector('.modal-background').style.display = 'flex';
-    StartPay();
+    if (totalPrice > 0 && totalPrice) {
+        document.querySelector('.modal-background').style.display = 'flex';
+        StartPay();
+    }
 })
+
+
 
 async function checkPaid() {
     if (PaidSuccessTotal) return;
@@ -234,24 +236,31 @@ async function checkPaid() {
         if (lastedPaid["Giá trị"] == totalPrice && lastedPaid["Mô tả"].includes(idTransfer)) {
             PaidSuccess = true;
             console.log("Đã thanh toán thành công!");
-            alert("thành công")
             totalPrice = 0;
             document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
                 if (checkbox.checked) {
                     RemoveFromCart(checkbox.id);
                 }
             })
-            document.querySelector('.modal-background').style.display = 'none';
-            localStorage.removeItem("timer");
-            clearInterval(a);
-            clearInterval(b);
+            document.querySelector('.payment-success-box').style.display = 'flex';
+            document.querySelector('.payment-success-box').style.animation = "move 0.8s ease-in-out forwards";
+            setTimeout(() => {
+                document.querySelector('.payment-success-box').style.animation = '';
+                document.querySelector('.payment-success-box').style.display = 'none';
+                setTimeout(() => {
+                    document.querySelector('.modal-background').style.display = 'none';
+                    localStorage.removeItem("timer");
+                    clearInterval(a);
+                    clearInterval(b);
+                }, 1000)
+            }, 1500);
+
             document.querySelectorAll('.checkedBuy').forEach((checkboxs) => {
                 checkboxs.checked = false;
             })
             document.querySelectorAll('.product-quantity').forEach((quantityInputs) => {
                 quantityInputs.value = 0;
             })
-
         }
         else {
             console.log("Đang kiểm tra chuyển tiền")
@@ -261,69 +270,71 @@ async function checkPaid() {
 }
 
 function StartPay() {
-    var showName = document.querySelector('#name-products');
-    showName.innerHTML = " ";
-    document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
-        if (checkbox.checked) {
-            const NameProducts = document.querySelector(`.product-name[id="${checkbox.id}"]`);
-            showName.innerHTML += NameProducts.innerHTML + ", ";
-        }
-    });
-    document.querySelector('.total-price').innerHTML = totalPriceComma + " VNĐ";
-
-    var minutes = 2;
-    var seconds = 0;
-
-    document.querySelectorAll('.id-transfer').forEach((e) => {
-        e.innerHTML = idTransfer;
-    })
-
-    function setTimerLocalStore(m, s) {
-        let arrayTimer = {
-            id: idTransfer,
-            minutes: m,
-            seconds: s
-        }
-        localStorage.setItem('timer', JSON.stringify(arrayTimer));
-    }
-    if (!localStorage.getItem('timer')) {
-        setTimerLocalStore(minutes, seconds);
-    }
-    if (localStorage.getItem('timer')) {
-        minutes = JSON.parse(localStorage.getItem('timer')).minutes;
-        seconds = JSON.parse(localStorage.getItem('timer')).seconds;
-        document.querySelector('.timer').innerHTML = `0${minutes}:${seconds}`;
-
-        const a = setInterval(function () {
-            timer();
-            console.log("timer")
-        }, 1000)
-        function timer() {
-            seconds--;
-            if (seconds < 0) {
-                seconds = 59;
-                minutes--;
+    if (totalPrice > 0 && totalPrice) {
+        var showName = document.querySelector('#name-products');
+        showName.innerHTML = " ";
+        document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
+            if (checkbox.checked) {
+                const NameProducts = document.querySelector(`.product-name[id="${checkbox.id}"]`);
+                showName.innerHTML += NameProducts.innerHTML + ", ";
             }
-            var stringseconds = seconds;
-            if (seconds < 10) {
-                stringseconds = `0${seconds}`;
+        });
+        document.querySelector('.total-price').innerHTML = totalPriceComma + " VNĐ";
+
+        var minutes = 2;
+        var seconds = 0;
+
+        document.querySelectorAll('.id-transfer').forEach((e) => {
+            e.innerHTML = idTransfer;
+        })
+
+        function setTimerLocalStore(m, s) {
+            let arrayTimer = {
+                id: idTransfer,
+                minutes: m,
+                seconds: s
             }
-            document.querySelector('.timer').innerHTML = `0${minutes}:${stringseconds}`;
+            localStorage.setItem('timer', JSON.stringify(arrayTimer));
+        }
+        if (!localStorage.getItem('timer')) {
             setTimerLocalStore(minutes, seconds);
-            if (minutes <= 0 && seconds <= 0) {
-                document.querySelector('.timer').innerHTML = "00:00";
-                clearInterval(a);
-                document.getElementById("qrPay").src = ``;
-                localStorage.removeItem("timer");
+        }
+        if (localStorage.getItem('timer')) {
+            minutes = JSON.parse(localStorage.getItem('timer')).minutes;
+            seconds = JSON.parse(localStorage.getItem('timer')).seconds;
+            document.querySelector('.timer').innerHTML = `0${minutes}:${seconds}`;
+
+            const a = setInterval(function () {
+                timer();
+                console.log("timer")
+            }, 1000)
+            function timer() {
+                seconds--;
+                if (seconds < 0) {
+                    seconds = 59;
+                    minutes--;
+                }
+                var stringseconds = seconds;
+                if (seconds < 10) {
+                    stringseconds = `0${seconds}`;
+                }
+                document.querySelector('.timer').innerHTML = `0${minutes}:${stringseconds}`;
+                setTimerLocalStore(minutes, seconds);
+                if (minutes <= 0 && seconds <= 0) {
+                    document.querySelector('.timer').innerHTML = "00:00";
+                    clearInterval(a);
+                    document.getElementById("qrPay").src = ``;
+                    localStorage.removeItem("timer");
+                }
             }
         }
+
+        var b = setInterval(function () {
+            if (minutes <= 0 && seconds <= 0) {
+                clearInterval(b);
+            }
+            checkPaid();
+        }, 2000)
+
     }
-
-    var b = setInterval(function () {
-        if (minutes <= 0 && seconds <= 0) {
-            clearInterval(b);
-        }
-        checkPaid();
-    }, 2000)
-
 }
