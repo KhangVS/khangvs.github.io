@@ -27,12 +27,12 @@ if(!localStorage.getItem('products')){
     ">Hãy thêm vào giỏ hàng để lựa chọn thanh toán<span style="color:green" id="totalMoney"></span></p>`;
 }
 
-fetch(url_bank)
-.then(response => response.json())
-.then(data => {
-    console.log(data);
-})
-.catch(error => console.error('Lỗi r ae =_))', error));
+// fetch(url_bank)
+// .then(response => response.json())
+// .then(data => {
+//     console.log(data);
+// })
+// .catch(error => console.error('Lỗi r ae =_))', error));
 
 const ProductsJSON = localStorage.getItem('products');
 const Products = JSON.parse(ProductsJSON);
@@ -51,7 +51,7 @@ function GenerateIdCharacterUserPay(){
     return id;
 }
 if(localStorage.getItem('products')){
-
+    document.querySelector('.modal-background').style.display = 'none';
     Products.forEach((product) => {
         const PriceComma = product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         var eachProduct = `<div class="product-shoes" value="${product.id}" style="
@@ -77,7 +77,7 @@ if(localStorage.getItem('products')){
         slider.innerHTML += eachProduct;
         // totalPrice += product.price * product.quantity;
     });
-    // var totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     // if(totalPrice === 0 && Products.length === 0) totalPriceComma = '0'
     // slider.innerHTML += `<p id="checkGio" style="
     // margin-top:20px;
@@ -117,7 +117,6 @@ const options = {
 //     document.getElementById("qrPay").src = `${data.data.qrDataURL}`;
 // })
 // .catch(error => console.error('Error:', error));
-
 function RemoveFromCart(btnId){
                     //>>OBJ<< >>ARR ID IN LCS<<
     Products.forEach((product, index) => {
@@ -133,15 +132,15 @@ function RemoveFromCart(btnId){
         }
     })
 }
-
-function RenderQR(totalPrices, totalPriceComma){
+let idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
+function RenderQR(){
     if(localStorage.getItem("products")){
-
-        totalPrices = parseFloat(totalPrices);
-        totalPriceComma = totalPrices.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        document.querySelector("#totalMoney").innerHTML = `${totalPriceComma}₫`;
-        request.amount = totalPrices;
-        request.addInfo = `Thanh toan don hang ${idClientCheck} ${totalPrices}VNĐ`;
+        totalPrice = parseFloat(totalPrice);
+        totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        // document.querySelector("#totalMoney").innerHTML = `${totalPriceComma}₫`;
+        console.log(totalPrice)
+        request.amount = totalPrice;
+        request.addInfo = `Thanh toan don hang ${idClientCheck}${totalPrice}VNĐ`;
         options.body = JSON.stringify(request);
         fetch(url_qrcode, options)
         .then(response => response.json())
@@ -164,7 +163,8 @@ const calculate = ()=> {
             totalPrice = parseFloat(totalPrice);
         }
     })
-    RenderQR(totalPrice,totalPriceComma);
+    idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
+    RenderQR();
 }
 
 document.querySelectorAll('.checkedBuy').forEach((checkboxs)=>{
@@ -193,52 +193,99 @@ calculate();
 // Retrieve the JSON string from localStorage
 if(!localStorage.getItem("products")) PaidSuccessTotal = true;
 
-
-const idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
-
 // CHECK KIỂM TRA THANH TOÁN:
 // THANH TOAN DON HANG idTransfer- Ma GD ACSP/ mR124751
 
-function ModalTransferText(){
-
-}
+document.querySelector('.ClickedBuy').addEventListener("click",()=>{
+    document.querySelector('.modal-background').style.display = 'flex';
+    StartPay();
+})
 
 async function checkPaid(){
     if(PaidSuccessTotal) return;
     else{
-        try{
-            const response = await fetch('https://script.googleusercontent.com/macros/echo?user_content_key=IHfKTAyxTC8iCJ9h6-hgXa5EQwg-2aeWlJdhZcTctLuzbxftk98qgXkIKOZpDkffNp00crMvkFxN5WKByn-1se3Gg66p2t4Ym5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnDDJKPsIih3RRDyacyIlDAuCPBanFIvAa5lM9k7PhC5aPAk9hO5Xxk29A1fB5VmhVI_Dl7Osk4xltA9Z3DeMLUmTibYuxZaST9z9Jw9Md8uu&lib=MqRp4dR7lDrfzYFouImgZ_AMUpPdY05-S')
-            const result = await response.json();
-            const lastedPaid = result.data[result.data.length - 1];
-            if(lastedPaid["Giá trị"] == totalPrice && lastedPaid["Mô tả"].includes(idTransfer)){
-                PaidSuccess = true;
-                console.log("Đã thanh toán thành công!");
-                totalPrice = 0;
-                document.querySelector("#checkGio").innerHTML = "Đã Thanh toán hết sản phẩm";
-                document.querySelectorAll('.checkedBuy').forEach((checkbox) =>{
-                    if(checkbox.checked){
-                        RemoveFromCart(checkbox.id);
-                    }
-                })
-                document.querySelectorAll('.checkedBuy').forEach((checkboxs) =>{
-                    checkboxs.checked = false;
-                })
-                document.querySelectorAll('.product-quantity').forEach((quantityInputs) =>{
-                    quantityInputs.value = 0;
-                })
-                RenderQR(totalPrice,totalPriceComma);
-            }else{
-                console.log("Check thanh toán")
-            }
+        const response = await fetch('https://script.googleusercontent.com/macros/echo?user_content_key=IHfKTAyxTC8iCJ9h6-hgXa5EQwg-2aeWlJdhZcTctLuzbxftk98qgXkIKOZpDkffNp00crMvkFxN5WKByn-1se3Gg66p2t4Ym5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnDDJKPsIih3RRDyacyIlDAuCPBanFIvAa5lM9k7PhC5aPAk9hO5Xxk29A1fB5VmhVI_Dl7Osk4xltA9Z3DeMLUmTibYuxZaST9z9Jw9Md8uu&lib=MqRp4dR7lDrfzYFouImgZ_AMUpPdY05-S')
+        const result = await response.json();
+        const lastedPaid = result.data[result.data.length - 1];
+        if(lastedPaid["Giá trị"] == totalPrice && lastedPaid["Mô tả"].includes(idTransfer)){
+            PaidSuccess = true;
+            console.log("Đã thanh toán thành công!");
+            alert("thành công")
+            document.querySelector('.modal-background').style.display = 'none';
+            totalPrice = 0;
+            document.querySelectorAll('.checkedBuy').forEach((checkbox) =>{
+                if(checkbox.checked){
+                    RemoveFromCart(checkbox.id);
+                }
+            })
+            document.querySelectorAll('.checkedBuy').forEach((checkboxs) =>{
+                checkboxs.checked = false;
+            })
+            document.querySelectorAll('.product-quantity').forEach((quantityInputs) =>{
+                quantityInputs.value = 0;
+            })
         }
-        catch(error){
-            console.error('Error:', error);
+        else{
+            console.log("Đang kiểm tra chuyển tiền")
         }
+        
     }
 }
 
-setTimeout(()=>{
-    setInterval(()=>{
-        checkPaid()
-    },500)
-},2500)
+function StartPay(){
+    
+    var minutes = 0;
+    var seconds = 15;
+    
+    document.querySelectorAll('.id-transfer').forEach((e) =>{
+    e.innerHTML = idTransfer;
+    })
+
+    function setTimerLocalStore(m,s){
+        let arrayTimer = {
+            id: idTransfer,
+            minutes: m,
+            seconds: s
+        }
+        localStorage.setItem('timer', JSON.stringify(arrayTimer));
+        }
+        if(!localStorage.getItem('timer')){
+            setTimerLocalStore(minutes, seconds);
+        }
+        if(localStorage.getItem('timer')){
+            minutes = JSON.parse(localStorage.getItem('timer')).minutes;
+            seconds = JSON.parse(localStorage.getItem('timer')).seconds;
+            document.querySelector('.timer').innerHTML = `0${minutes}:${seconds}`;
+            
+            const a = setInterval(function(){
+                timer();
+                console.log("timer")
+            }, 1000)
+            function timer(){
+                seconds--;
+                if(seconds < 0){
+                    seconds = 59;
+                    minutes--;
+                }
+                var stringseconds = seconds;
+                if(seconds < 10){
+                    stringseconds = `0${seconds}`;
+                }
+                document.querySelector('.timer').innerHTML = `0${minutes}:${stringseconds}`;
+                setTimerLocalStore(minutes, seconds);
+                if(minutes <= 0 && seconds <= 0){
+                    document.querySelector('.timer').innerHTML = "00:00";
+                    clearInterval(a);
+                    localStorage.removeItem("timer");
+                }
+            }
+        }
+
+        var b = setInterval(function(){
+            if(minutes <= 0 && seconds <= 0){
+                clearInterval(b);
+            }
+            checkPaid();
+        },2000)
+
+}

@@ -3,112 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR Code Payment</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f9f9f9;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .modal-header {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-        }
-        .qr-code {
-            margin: 20px 0;
-        }
-        .product-info {
-            text-align: left;
-            margin: 20px 0;
-        }
-        .product-info span {
-            display: block;
-            margin: 5px 0;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        .open-modal-btn {
-            padding: 10px 20px;
-            border: none;
-            background-color: #007BFF;
-            color: #fff;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .open-modal-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="./test.ui.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-
-<button class="open-modal-btn" onclick="openModal()">Pay with QR Code</button>
-
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <div class="modal-header">[Bank Name Here]</div>
-        <div class="qr-code">
-            <img src="https://img.vietqr.io/image/970415-113366668888-qr_only.png" alt="QR Code" width="250px" height="250px">
+<body style="margin: 0;">
+    <div class="modal-background">
+        <div class="container">
+            <div class="left-panel">
+                <div class="header">
+                    <h1>Đang chờ thanh toán</h1>
+                    <div class="timer">00:00</div>
+                </div>
+                <div class="course-details">
+                    <h2>Tên các sản phẩm: <span id="name-products">${}</span></h2>
+                <p>Mã đơn hàng: <span class="order-id id-transfer">${}</span></p>
+                <div class="promo-code">
+                    <input type="text" placeholder="Nhập mã khuyến mãi">
+                    <button>ÁP DỤNG</button>
+                </div>
+                <div class="payment-details">
+                    <p>Giá bán: 
+                        <!-- <span class="old-price">2.500.000đ</span> -->
+                        <span class="new-price">1.299.000đ</span>
+                    </p>
+                    <p>Tổng tiền: <span class="total-price">1.299.000đ</span></p>
+                </div>
+            </div>
         </div>
-        <div class="product-info">
-            <span><strong>ID:</strong> [idProduct]</span>
-            <span><strong>Price:</strong> $[Price]</span>
+        <div class="right-panel">
+            <div class="qr-section">
+                <h2>Chuyển khoản bằng QR</h2>
+                <img src="https://img.vietqr.io/image/970415-113366668888-qr_only.png" alt="QR Code">
+                <ol>
+                    <li>Mở app ngân hàng và quét mã QR.</li>
+                    <li>Đảm bảo nội dung chuyển khoản là <strong style="color: coral;" class="id-transfer">${}</strong>.</li>
+                    <li>Thực hiện thanh toán.</li>
+                </ol>
+            </div>
+            <div class="manual-transfer">
+                <h2>Chuyển khoản thủ công</h2>
+                <p style="display: inline-block;">Số tài khoản: <span class="account-number"><strong>0939505922</strong></span></p> <button style="display: inline-block;background-color: transparent;position: relative;float: right; border: 2px #fff solid; color: white; border-radius: 10px; padding: 12px;cursor: pointer;" id="copy-2"><i class="fa-solid fa-copy"></i></button>
+                <p>Tên tài khoản: <span class="account-name">NGUYỄN THÀNH KHANG</span></p>
+                <p>Ngân hàng chuyển khoản:<span class="branch"><img src="./assets/img/mbbanklogo.png" width="25px" height="16px" style="position: relative;top: 2px;"> MB Bank Cần Thơ</span></p>
+                <p style="display: inline-block;">Nội dung: <span class="order-id id-transfer">${}</span></p><button style="display: inline-block;position: relative;float: right;background-color: transparent; border: 2px #fff solid; color: white; border-radius: 10px; padding: 12px;cursor: pointer;" id="copy-1"><i class="fa-solid fa-copy"></i></button>
+                <p class="note" style="border: transparent;font-weight: bold;">Bạn chú ý điền nội dung chuyển khoản nhé!</p>
+            </div>
+            <!-- <div class="contact-info">
+                <p>Tới đa 5 phút sau thời gian chuyển khoản, nếu hệ thống không phản hồi vui lòng liên hệ ngay bộ phận hỗ trợ của F8.</p>
+                <p>Số điện thoại: <a href="tel:02463291102">0246.329.1102</a></p>
+                <p>Email: <a href="mailto:contact@fullstack.edu.vn">contact@fullstack.edu.vn</a></p>
+                <p>Địa chỉ: Số 11D, lô A10, khu đô thị Nam Trung Yên, Phường Yên Hòa, Quận Cầu Giấy, TP. Hà Nội</p>
+            </div> -->
         </div>
     </div>
-</div>
-
-<script>
-    function openModal() {
-        document.getElementById('myModal').style.display = "block";
-    }
-
-    function closeModal() {
-        document.getElementById('myModal').style.display = "none";
-    }
-
-    window.onclick = function(event) {
-        if (event.target == document.getElementById('myModal')) {
-            closeModal();
-        }
-    }
-</script>
-
+    </div>
 </body>
 </html>

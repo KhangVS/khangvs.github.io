@@ -22,69 +22,32 @@
       background-color: yellow;
     }
   </style>
+  <script src="https://cdn.payos.vn/payos-checkout/v1/stable/payos-initialize.js"></script>
 </head>
 <body>
-  <input type="text" id="searchInput" placeholder="Search for..." />
-  <button id="loadButton">Load XLSX</button>
-  <button id="searchButton">Search</button>
-  <div id="tableContainer"></div>
+  <div id="modal">click</div>
   <script>
-    let workbook;
-    let worksheet;
-
-    document.getElementById('loadButton').addEventListener('click', function() {
-      fetch('./testdatabase.xlsx')
-        .then(response => response.arrayBuffer())
-        .then(data => {
-          workbook = XLSX.read(data, { type: 'array' });
-
-          // Get the first worksheet
-          const firstSheetName = workbook.SheetNames[0];
-          worksheet = workbook.Sheets[firstSheetName];
-
-          // Display the worksheet
-          displayWorksheet(worksheet);
-        })
-        .catch(error => console.error('Error fetching the XLSX file:', error));
-    });
-
-    document.getElementById('searchButton').addEventListener('click', function() {
-      const searchTerm = document.getElementById('searchInput').value;
-      if (worksheet && searchTerm) {
-        searchAndHighlight(worksheet, searchTerm);
-      }
-    });
-
-    function displayWorksheet(sheet) {
-      const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-      let tableHtml = '<table>';
-
-      jsonData.forEach((row, rowIndex) => {
-        tableHtml += '<tr>';
-        row.forEach((cell, colIndex) => {
-          tableHtml += `<td id="cell-${rowIndex}-${colIndex}">${cell}</td>`;
-        });
-        tableHtml += '</tr>';
-      });
-
-      tableHtml += '</table>';
-      document.getElementById('tableContainer').innerHTML = tableHtml;
-    }
-
-    function searchAndHighlight(sheet, term) {
-      for (const cell in sheet) {
-        if (cell[0] === '!') continue; // Skip non-cell entries
-
-        const cellValue = sheet[cell].v;
-        if (typeof cellValue === 'string' && cellValue.includes(term)) {
-          const cellRef = XLSX.utils.decode_cell(cell);
-          console.log(cellRef.r , cellRef.c);
-          const cellId = `cell-${cellRef.r}-${cellRef.c}`;
-          // lây toạ độ vị trí của cell
-          document.getElementById(cellId).classList.add('highlight');
-        }
-      }
-    }
+    let payOSConfig = {
+    RETURN_URL: "http://127.0.0.1:5500/", // required
+    ELEMENT_ID: "modal", // required
+    CHECKOUT_URL: "http://127.0.0.1:5500/cart.html", // required
+    // embedded: true, // Nếu dùng giao diện nhúng
+    onSuccess: (event) => {
+      //TODO: Hành động sau khi người dùng thanh toán đơn hàng thành công
+      
+    },
+    onCancel: (event) => {
+      //TODO: Hành động sau khi người dùng Hủy đơn hàng
+      
+    },
+    onExit: (event) => {
+      //TODO: Hành động sau khi người dùng tắt Pop up
+      
+    },
+  };
+  
+  const { open, exit } = PayOSCheckout.usePayOS(payOSConfig);
+  open();
   </script>
 </body>
 </html>

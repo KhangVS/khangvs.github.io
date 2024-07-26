@@ -1,87 +1,140 @@
-/* styles.css */
-
-body {
+.modal-background {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #1e1e1e;
+    color: #fff;
     margin: 0;
-    padding: 20px;
-}
-
-.product-list {
+    padding: 0;
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.product-item {
-    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 20px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+    height: 100vh;
 }
 
-.product-item img {
-    max-width: 100px;
-    border-radius: 8px;
+.container {
+    display: flex;
+    max-width: 1000px;
+    width: 100%;
+    background-color: #2a2a2a;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.product-details {
-    flex: 1;
+.left-panel, .right-panel {
+    padding: 20px;
+    width: 50%;
 }
 
-.product-details h3 {
-    margin: 0;
-    font-size: 1.2em;
+.left-panel {
+    background-color: #333;
+    border-right: 1px solid #444;
 }
 
-.product-details p {
+.right-panel {
+    background-color: #222;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 18px;
+}
+
+.timer {
+    font-size: 18px;
+    color: #ff4f4f;
+}
+
+.course-details h2 {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.course-details p {
     margin: 5px 0;
 }
 
-.product-details label {
-    margin-right: 10px;
+.order-id {
+    font-weight: bold;
+    color: #ff4f4f;
 }
 
-.product-details input[type="number"] {
-    width: 50px;
-    padding: 5px;
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.promo-code {
+    display: flex;
+    margin: 10px 0;
 }
 
-.remove-btn {
-    background: red;
-    color: white;
+.promo-code input {
+    flex: 1;
+    padding: 10px;
     border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 4px;
+    border-radius: 5px 0 0 5px;
+    background-color: #444;
+    color: #fff;
 }
 
-.select-checkbox {
-    margin-left: 10px;
-}
-
-.buy-btn {
-    background: #007bff;
-    color: white;
+.promo-code button {
+    padding: 10px;
     border: none;
-    padding: 10px 20px;
+    border-radius: 0 5px 5px 0;
+    background-color: #ff4f4f;
+    color: #fff;
     cursor: pointer;
-    border-radius: 4px;
-    align-self: flex-end;
-    font-size: 1em;
-    margin-top: 20px;
 }
 
-.buy-btn:hover {
-    background: #0056b3;
+.payment-details p {
+    margin: 10px 0;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.new-price, .total-price {
+    font-weight: bold;
+    font-size: 18px;
+    color: #00c853;
+}
+
+.qr-section img {
+    width: 160px;
+    height: 160px;
+    margin: 10px 0;
+    border: 5px solid skyblue ;
+    border-radius: 10px;
+}
+
+.manual-transfer p {
+    margin: 5px 0;
+}
+
+.manual-transfer .order-id {
+    font-weight: bold;
+    color: #ff984f;
+}
+
+.contact-info p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.contact-info a {
+    color: #ff4f4f;
+    text-decoration: none;
+}
+.manual-transfer p{
+    border: 2px solid #fff;
+    border-radius: 5px;
+    padding: 7px 16px;
+}
+.account-number{
+    color:skyblue;
 }
