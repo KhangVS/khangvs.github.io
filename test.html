@@ -1,53 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search XLSX</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <title>Copy Text UI with Success Icon</title>
   <style>
-    table {
-      border-collapse: collapse;
-      width: 100%;
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
     }
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
+
+    .copy-container {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
     }
-    th {
-      background-color: #f2f2f2;
+
+    .copy-container input {
+      border: none;
+      outline: none;
+      font-size: 16px;
+      padding: 10px;
+      flex: 1;
     }
-    .highlight {
-      background-color: yellow;
+
+    .copy-container button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .copy-container button img {
+      width: 20px;
+      height: 20px;
+    }
+
+    .copied {
+      display: none;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      color: green;
+      font-size: 14px;
+      animation: fadeInOut 2s forwards;
+    }
+
+    .copied img {
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
     }
   </style>
-  <script src="https://cdn.payos.vn/payos-checkout/v1/stable/payos-initialize.js"></script>
 </head>
+
 <body>
-  <div id="modal">click</div>
+  <div class="copy-container">
+    <input type="text" id="textToCopy" placeholder="Enter text to copy">
+    <button onclick="copyText()">
+      <img src="https://www.svgrepo.com/show/255833/copy.svg" alt="Copy Icon">
+    </button>
+  </div>
+  <div id="copiedMessage" class="copied">
+    <img src="https://www.svgrepo.com/show/13653/check.svg" alt="Success Icon"> Copied!
+  </div>
+
   <script>
-    let payOSConfig = {
-    RETURN_URL: "http://127.0.0.1:5500/", // required
-    ELEMENT_ID: "modal", // required
-    CHECKOUT_URL: "http://127.0.0.1:5500/cart.html", // required
-    // embedded: true, // Nếu dùng giao diện nhúng
-    onSuccess: (event) => {
-      //TODO: Hành động sau khi người dùng thanh toán đơn hàng thành công
-      
-    },
-    onCancel: (event) => {
-      //TODO: Hành động sau khi người dùng Hủy đơn hàng
-      
-    },
-    onExit: (event) => {
-      //TODO: Hành động sau khi người dùng tắt Pop up
-      
-    },
-  };
-  
-  const { open, exit } = PayOSCheckout.usePayOS(payOSConfig);
-  open();
+    function copyText() {
+      const textToCopy = document.getElementById('textToCopy');
+      textToCopy.select();
+      textToCopy.setSelectionRange(0, 99999); // For mobile devices
+
+      navigator.clipboard.writeText(textToCopy.value)
+        .then(() => {
+          const copiedMessage = document.getElementById('copiedMessage');
+          copiedMessage.style.display = 'flex';
+          setTimeout(() => {
+            copiedMessage.style.display = 'none';
+          }, 2000);
+        }).catch(err => {
+          console.error('Failed to copy: ', err);
+        });
+    }
   </script>
 </body>
+
 </html>

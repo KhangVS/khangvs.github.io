@@ -3,6 +3,7 @@ body {
     cursor: url('../img/cursor/camera.png'), auto;
     margin: 0;
 }
+
 .header {
     margin: 0;
     background-color: rgb(36, 36, 36);
@@ -211,13 +212,13 @@ body {
     font-size: 20px;
 }
 
-.slider *{
+.slider * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.header{
+.header {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -253,7 +254,7 @@ body {
 /* FROM MAIN */
 
 
-.slider{
+.slider {
     margin: 2% 2% 0px 15%;
     /* display: flex; */
     float: left;
@@ -261,43 +262,44 @@ body {
     cursor: url("../img/cursor/shoes1.png"), default;
 }
 
-.main-image{
+.main-image {
     display: inline-block;
 }
 
-.main-image img{
+.main-image img {
     border-radius: 10px;
 }
 
-.subtle-image img:hover{
-    filter:opacity(0.8);
+.subtle-image img:hover {
+    filter: opacity(0.8);
 }
 
-.subtle-image{
+.subtle-image {
     display: inline-block;
     width: 75px;
     margin: 0px 25px 0px 10px;
     float: left;
 }
 
-.subtle-image img{
+.subtle-image img {
     border: 1px solid rgb(184, 184, 184);
     border-radius: 15px;
     width: 75px;
     height: 75px;
     cursor: url("../img/cursor/shoes2.png"), pointer;
 }
-.subtle-image img:hover{
+
+.subtle-image img:hover {
     background-color: rgba(193, 193, 193, 0.263);
 }
 
-.main-info{
+.main-info {
     display: grid;
     float: right;
     padding: 4vw;
 }
 
-.add-to-cart{
+.add-to-cart {
     font-size: 20px;
     cursor: url("../img/cursor/shoes2.png"), pointer;
     color: #fff;
@@ -310,24 +312,24 @@ body {
     transition: all 0.7s ease;
 }
 
-.add-to-cart:hover{
+.add-to-cart:hover {
     background-color: rgb(20, 92, 225);
 }
 
-.price{
+.price {
     font-size: 19px;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.size-options{
+.size-options {
     margin-top: 35px;
 }
 
-.disable{
+.disable {
     display: none;
 }
 
-.new-add{
+.new-add {
     position: absolute;
     right: 16px;
     top: 30px;
@@ -341,7 +343,7 @@ body {
     z-index: 10;
 }
 
-.select{
+.select {
     font-size: 20px;
     font-weight: bold;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -350,7 +352,7 @@ body {
     right: 45px;
 }
 
-.product-shoes{
+.product-shoes {
     display: flex;
     align-items: center;
     width: 50vw;
@@ -359,18 +361,18 @@ body {
     border-bottom: 1px solid #ccc;
 }
 
-.product-shoes img{
+.product-shoes img {
     margin-right: 20px;
     border-radius: 15px;
 }
 
-.ClickedBuy{
+.ClickedBuy {
     margin: 0;
     display: inline-block;
     font-size: 20px;
     cursor: url("../img/cursor/shoes2.png"), pointer;
     color: white;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border: 2px solid rgb(0, 108, 191);
     background-color: rgb(0, 129, 227);
     padding: 12px 24px;
@@ -378,11 +380,12 @@ body {
     position: relative;
     left: 32%;
 }
-.ClickedBuy:hover{
+
+.ClickedBuy:hover {
     background-color: rgb(0, 119, 210);
 }
 
-.deleteProduct{
+.deleteProduct {
     color: rgb(255, 25, 25);
     font-size: 30px;
     position: absolute;
@@ -392,17 +395,17 @@ body {
     transition: color 0.5s;
 }
 
-.deleteProduct:hover{
+.deleteProduct:hover {
     color: rgb(211, 0, 0);
 }
 
-.checkedBuy{
+.checkedBuy {
     position: absolute;
     right: 10px;
     bottom: 10px;
 }
 
-.box-size{
+.box-size {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -413,11 +416,11 @@ body {
     width: 30vw;
 }
 
-.buy-product{
+.buy-product {
     font-size: 20px;
     cursor: url("../img/cursor/shoes2.png"), pointer;
     color: white;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     border: 2px solid rgb(108, 171, 214);
     border-radius: 5px;
     padding: 16px;
@@ -425,12 +428,12 @@ body {
     transition: all 0.7s ease;
 }
 
-.buy-product:hover{
+.buy-product:hover {
     background-color: rgb(207, 159, 0);
 }
 
-.box-size a{
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.box-size a {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 18px;
     border: 2px solid rgb(108, 171, 214);
     border-radius: 5px;
@@ -440,29 +443,29 @@ body {
     transition: all 0.7s ease;
 }
 
-.box-size a:hover{
+.box-size a:hover {
     cursor: url("../img/cursor/shoes2.png"), pointer;
     background-color: rgb(93, 184, 187);
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
-  background-color: #ccc;
+.container:hover input~.checkmark {
+    background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-input:checked ~ .checkmark {
-  background-color: #2196F3;
+input:checked~.checkmark {
+    background-color: #2196F3;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+    content: "";
+    position: absolute;
+    display: none;
 }
 
-input[type="number"]{
+input[type="number"] {
     width: 50px;
     padding: 5px;
     margin-right: 10px;
@@ -472,31 +475,29 @@ input[type="number"]{
 }
 
 input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-
-}
+input[type=number]::-webkit-outer-spin-button {}
 
 
 /* Show the checkmark when checked */
-input:checked ~ .checkmark:after {
-  display: block;
+input:checked~.checkmark:after {
+    display: block;
 }
 
 /* Style the checkmark/indicator */
 .checkmark:after {
-  left: 9px;
-  top: 5px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 
 
-.modal-screen{
+.modal-screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -509,15 +510,21 @@ input:checked ~ .checkmark:after {
     align-items: center;
 }
 
-.fa-times{
+.fa-check,
+.fa-copy {
+    font-size: 17px;
+}
+
+.fa-times {
     position: absolute;
-    top:0;
+    top: 0;
     right: 0;
     color: rgb(248, 65, 65);
     font-size: 30px;
     cursor: url("../img/cursor/shoes2.png"), pointer;
     transition: color 0.5s;
 }
+
 /* 
 .modal-box{
     border: 2px solid white;
@@ -588,6 +595,7 @@ input:checked ~ .checkmark:after {
 }
 
 .container {
+    cursor: url("../img/cursor/shoes1.png"), default;
     display: flex;
     max-width: 1100px;
     width: 100%;
@@ -597,11 +605,12 @@ input:checked ~ .checkmark:after {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.container *{
-    box-sizing:content-box;
+.container * {
+    box-sizing: content-box;
 }
 
-.left-panel, .right-panel {
+.left-panel,
+.right-panel {
     padding: 20px;
     width: 50%;
 }
@@ -679,7 +688,8 @@ input:checked ~ .checkmark:after {
     color: #888;
 }
 
-.new-price, .total-price {
+.new-price,
+.total-price {
     font-weight: bold;
     font-size: 18px;
     color: #00c853;
@@ -689,7 +699,7 @@ input:checked ~ .checkmark:after {
     width: 180px;
     height: 180px;
     margin: 8px 0;
-    border: 5px solid skyblue ;
+    border: 5px solid skyblue;
     border-radius: 10px;
 }
 
@@ -711,11 +721,47 @@ input:checked ~ .checkmark:after {
     color: #ff4f4f;
     text-decoration: none;
 }
-.manual-transfer p{
+
+.manual-transfer p {
     border: 2px solid #fff;
     border-radius: 5px;
     padding: 7px 16px;
 }
-.account-number{
-    color:skyblue;
+
+.account-number {
+    color: skyblue;
+}
+
+.payment-success-box {
+    background-color: white;
+    border: 2px solid #dcdcdc;
+    border-radius: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 315px;
+    flex-wrap: wrap;
+    border-bottom: rgb(25, 166, 25) 3px solid;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.success-icon .fas {
+    color: rgb(25, 166, 25);
+    font-size: 30px;
+}
+
+.success-message {
+    font-size: 26PX;
+    color: rgb(25, 166, 25);
+    font-family: cursive;
+}
+
+.info {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 20px;
 }

@@ -20,7 +20,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.left-panel, .right-panel {
+.left-panel,
+.right-panel {
     padding: 20px;
     width: 50%;
 }
@@ -98,7 +99,8 @@
     color: #888;
 }
 
-.new-price, .total-price {
+.new-price,
+.total-price {
     font-weight: bold;
     font-size: 18px;
     color: #00c853;
@@ -108,7 +110,7 @@
     width: 160px;
     height: 160px;
     margin: 10px 0;
-    border: 5px solid skyblue ;
+    border: 5px solid skyblue;
     border-radius: 10px;
 }
 
@@ -130,11 +132,56 @@
     color: #ff4f4f;
     text-decoration: none;
 }
-.manual-transfer p{
+
+.manual-transfer p {
     border: 2px solid #fff;
     border-radius: 5px;
     padding: 7px 16px;
 }
-.account-number{
-    color:skyblue;
+
+.account-number {
+    color: skyblue;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.payment-success-box {
+    background-color: white;
+    border: 2px solid #dcdcdc;
+    border-radius: 16px;
+    padding: 10px 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 315px;
+    flex-wrap: wrap;
+    border-bottom: rgb(25, 166, 25) 3px solid;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.success-icon .fas {
+    color: rgb(25, 166, 25);
+    font-size: 30px;
+}
+
+.success-message {
+    font-size: 26PX;
+    color: rgb(25, 166, 25);
+    font-family: cursive;
+}
+
+.info {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 20px;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,14 +12,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
     <header>
         <div class="button none-after menu" style="left: 0;"><i class="fa-solid fa-bars"></i></div>
         <div class="button none-after menu" style="right: 0;"><i class="fa fa-shopping-cart"></i></div>
         <div class="header">
-            <a href="./index.html"><div class="button">Home</div></a>
+            <a href="./index.html">
+                <div class="button">Home</div>
+            </a>
             <div class="button">Shop</div>
             <div class="button">Contact</div>
         </div>
@@ -37,8 +43,8 @@
         left: 25%;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.21);
     ">
-        
-    <!-- <div class="modal-screen">
+
+        <!-- <div class="modal-screen">
         <div class="modal-box">
             <div class="close-modal">
                 <i class="fa fa-times"></i>
@@ -55,7 +61,7 @@
             </div>
         </div>
     </div> -->
-    
+
     </div>
     <div class="modal-background" id="modal">
         <div class="container">
@@ -66,41 +72,62 @@
                 </div>
                 <div class="course-details">
                     <h2>Tên các sản phẩm: <span id="name-products">${}</span></h2>
-                <p>Mã đơn hàng: <span class="order-id id-transfer">${}</span></p>
-                <div class="promo-code">
-                    <input type="text" placeholder="Nhập mã khuyến mãi">
-                    <button>ÁP DỤNG</button>
-                </div>
-                <div class="payment-details">
-                    <p>Giá bán: 
+                    <p>Mã đơn hàng: <span class="order-id id-transfer">${}</span></p>
+                    <div class="promo-code">
+                        <input type="text" placeholder="Nhập mã khuyến mãi">
+                        <button>ÁP DỤNG</button>
+                    </div>
+                    <div class="payment-details">
+                        <!-- <p>Giá bán: 
                         <span class="new-price">1.299.000đ</span>
-                    </p>
-                    <p>Tổng tiền: <span class="total-price">1.299.000đ</span></p>
+                    </p> -->
+                        <p>Tổng tiền: <span class="total-price">1.299.000đ</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="right-panel" style="position: relative;">
+                <i id="close-modal" class="fa-solid fa-square-xmark deleteProduct" onclick="RemoveModal()"></i>
+                <div class="qr-section">
+                    <h2>Chuyển khoản bằng QR</h2>
+                    <img src="" id="qrPay" alt="QR Code">
+                    <ol>
+                        <li>Mở app ngân hàng và quét mã QR.</li>
+                        <li>Đảm bảo nội dung chuyển khoản là <strong style="color: coral;"
+                                class="id-transfer">${}</strong>.</li>
+                        <li>Thực hiện thanh toán.</li>
+                    </ol>
+                </div>
+                <div class="manual-transfer">
+                    <h2>Chuyển khoản thủ công</h2>
+                    <p style="display: inline-block;">Số tài khoản: <span class="account-number"><strong
+                                id="account-number">0939505922</strong></span></p> <button
+                        style="display: inline-block;background-color: transparent;position: relative;float: right; border: 2px #fff solid; color: white; border-radius: 10px; padding: 12px;cursor: pointer;"
+                        id="copy-2" onclick="Copy(this.id)"><i class="fa-solid copy-2 fa-copy"></i></button>
+                    <p>Tên tài khoản: <span class="account-name">NGUYỄN THÀNH KHANG</span></p>
+                    <p>Ngân hàng chuyển khoản:<span class="branch"><img src="./assets/img/mbbanklogo.png" width="25px"
+                                height="16px" style="position: relative;top: 2px;"> MB Bank Cần Thơ</span></p>
+                    <p style="display: inline-block;">Nội dung: <span class="order-id id-transfer">${}</span></p><button
+                        style="display: inline-block;position: relative;float: right;background-color: transparent; border: 2px #fff solid; color: white; border-radius: 10px; padding: 12px;cursor: pointer;"
+                        id="copy-1" onclick="Copy(this.id)"><i class="fa-solid copy-1 fa-copy"></i></button>
+                    <p class="note" style="border: transparent;font-weight: bold;">Bạn chú ý điền nội dung chuyển khoản
+                        nhé!</p>
                 </div>
             </div>
         </div>
-        <div class="right-panel">
-            <div class="qr-section">
-                <h2>Chuyển khoản bằng QR</h2>
-                <img src="" id="qrPay" alt="QR Code">
-                <ol>
-                    <li>Mở app ngân hàng và quét mã QR.</li>
-                    <li>Đảm bảo nội dung chuyển khoản là <strong style="color: coral;" class="id-transfer">${}</strong>.</li>
-                    <li>Thực hiện thanh toán.</li>
-                </ol>
-            </div>
-            <div class="manual-transfer">
-                <h2>Chuyển khoản thủ công</h2>
-                <p style="display: inline-block;">Số tài khoản: <span class="account-number"><strong>0939505922</strong></span></p> <button style="display: inline-block;background-color: transparent;position: relative;float: right; border: 2px #fff solid; color: white; border-radius: 10px; padding: 12px;cursor: pointer;" id="copy-2"><i class="fa-solid fa-copy"></i></button>
-                <p>Tên tài khoản: <span class="account-name">NGUYỄN THÀNH KHANG</span></p>
-                <p>Ngân hàng chuyển khoản:<span class="branch"><img src="./assets/img/mbbanklogo.png" width="25px" height="16px" style="position: relative;top: 2px;"> MB Bank Cần Thơ</span></p>
-                <p style="display: inline-block;">Nội dung: <span class="order-id id-transfer">${}</span></p><button style="display: inline-block;position: relative;float: right;background-color: transparent; border: 2px #fff solid; color: white; border-radius: 10px; padding: 12px;cursor: pointer;" id="copy-1"><i class="fa-solid fa-copy"></i></button>
-                <p class="note" style="border: transparent;font-weight: bold;">Bạn chú ý điền nội dung chuyển khoản nhé!</p>
-            </div>
+    </div>
+    <div class="payment-success-box" style="display: none;">
+        <div class="success-icon">
+            <i class="fas fa-check-circle"></i>
         </div>
+        <div class="success-message">
+            Payment Successful!
+        </div>
+        <div class="info">
+            Your order has been placed successfully.
         </div>
     </div>
     <script src="./assets/js/cartQR.js"></script>
     <script src="./assets/js/addCart.js"></script>
 </body>
+
 </html>
