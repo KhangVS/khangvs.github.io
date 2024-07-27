@@ -771,12 +771,28 @@ input:checked~.checkmark:after {
 }
 
 @keyframes move {
-    from {
+    0% {
+        opacity: 1;
         transform: translateY(0px);
     }
 
-    to {
+    50% {
+        opacity: 0.8;
         transform: translateY(250px);
+    }
+
+    75% {
+        opacity: 0.6;
+        transform: translateY(100px);
+    }
+
+    85% {
+        opacity: 0.4;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(10px);
     }
 }
 

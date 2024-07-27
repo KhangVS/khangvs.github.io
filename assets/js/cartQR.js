@@ -20,13 +20,6 @@ const url_bank = 'https://api.vietqr.io/v2/banks';
 
 localStorage.removeItem("newAdd")
 localStorage.removeItem("timer");
-if (!localStorage.getItem('products')) {
-    document.querySelector(".slider").innerHTML += `<p id="checkGio" style="
-    margin-top:20px;
-    font-size:22px;
-    font-weight: bold;
-    ">Hãy thêm vào giỏ hàng để lựa chọn thanh toán<span style="color:green" id="totalMoney"></span></p>`;
-}
 
 // fetch(url_bank)
 // .then(response => response.json())
@@ -88,7 +81,7 @@ if (localStorage.getItem('products')) {
     // slider.innerHTML += `<img id="qrPay">`
     slider.innerHTML += `
     <div class="button ClickedBuy">
-        Buy selected products
+        Mua sản phẩm đã chọn
     </div>`
 }
 
@@ -153,6 +146,7 @@ function RemoveFromCart(btnId) {
             localStorage.removeItem('products')
         }
     })
+    ifCartNothing();
 }
 let idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
 function RenderQR() {
@@ -213,19 +207,49 @@ calculate();
 // localStorage.setItem('products', productsJSON);
 
 // Retrieve the JSON string from localStorage
-if (!localStorage.getItem("products")) PaidSuccessTotal = true;
+function ifCartNothing() {
+    if (!localStorage.getItem("products")) {
+        PaidSuccessTotal = true;
+        document.getElementById('modal').style.display = 'none';
+        document.querySelector(".slider").innerHTML += `<p id="checkGio" style="
+        margin-top:20px;
+        font-size:22px;
+        font-weight: bold;
+        ">Hãy thêm vào giỏ hàng để lựa chọn thanh toán<span style="color:green" id="totalMoney"></span></p>`;
+        if (document.querySelector(".ClickedBuy")) {
+            document.querySelector(".ClickedBuy").remove();
+        }
+    }
+}
+ifCartNothing();
 
 // CHECK KIỂM TRA THANH TOÁN:
 // THANH TOAN DON HANG idTransfer- Ma GD ACSP/ mR124751
+if (document.querySelector(".ClickedBuy")) {
+    document.querySelector('.ClickedBuy').addEventListener("click", () => {
+        if (totalPrice > 0 && totalPrice) {
+            document.querySelector('.modal-background').style.display = 'flex';
+            StartPay();
+        }
+    })
+}
 
-document.querySelector('.ClickedBuy').addEventListener("click", () => {
-    if (totalPrice > 0 && totalPrice) {
-        document.querySelector('.modal-background').style.display = 'flex';
-        StartPay();
-    }
-})
+function PopUpSuccess(time) {
+    document.querySelector('.payment-success-box').style.display = 'flex';
+    document.querySelector('.payment-success-box').style.animation = "move 2.3s ease-out forwards";
+    setTimeout(() => {
+        document.querySelector('.payment-success-box').style.display = 'none';
+    }, time)
+}
 
-
+function ClearPay(time) {
+    setTimeout(() => {
+        document.querySelector('.modal-background').style.display = 'none';
+        localStorage.removeItem("timer");
+        clearInterval(a);
+        clearInterval(b);
+    }, time)
+}
 
 async function checkPaid() {
     if (PaidSuccessTotal) return;
@@ -242,19 +266,8 @@ async function checkPaid() {
                     RemoveFromCart(checkbox.id);
                 }
             })
-            document.querySelector('.payment-success-box').style.display = 'flex';
-            document.querySelector('.payment-success-box').style.animation = "move 0.8s ease-in-out forwards";
-            setTimeout(() => {
-                document.querySelector('.payment-success-box').style.animation = '';
-                document.querySelector('.payment-success-box').style.display = 'none';
-                setTimeout(() => {
-                    document.querySelector('.modal-background').style.display = 'none';
-                    localStorage.removeItem("timer");
-                    clearInterval(a);
-                    clearInterval(b);
-                }, 1000)
-            }, 1500);
-
+            PopUpSuccess(2500);
+            ClearPay(1000);
             document.querySelectorAll('.checkedBuy').forEach((checkboxs) => {
                 checkboxs.checked = false;
             })
@@ -282,7 +295,7 @@ function StartPay() {
         document.querySelector('.total-price').innerHTML = totalPriceComma + " VNĐ";
 
         var minutes = 2;
-        var seconds = 0;
+        var seconds = 30;
 
         document.querySelectorAll('.id-transfer').forEach((e) => {
             e.innerHTML = idTransfer;
