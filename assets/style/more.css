@@ -367,7 +367,7 @@ body {
 }
 
 .ClickedBuy {
-    margin: 0;
+    margin: 0 0 50px 0;
     display: inline-block;
     font-size: 20px;
     cursor: url("../img/cursor/shoes2.png"), pointer;
@@ -794,6 +794,15 @@ input:checked~.checkmark:after {
         opacity: 0;
         transform: translateY(10px);
     }
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f8f8f8;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .success-icon .fas {

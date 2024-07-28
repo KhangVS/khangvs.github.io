@@ -63,10 +63,16 @@ body {
     margin: 0px 2% 0px 12%;
     /* display: flex; */
     float: left;
-    /* flex-wrap: wrap; */
-    /* display: flex; */
     float: left;
-    /* flex-wrap: wrap; */
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f8f8f8;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .products {
