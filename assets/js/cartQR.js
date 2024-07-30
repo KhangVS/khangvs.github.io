@@ -170,15 +170,19 @@ function RenderQR() {
 
 const calculate = () => {
     totalPrice = 0;
+    // let IdEachProduct = "";
     document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
         if (checkbox.checked) {
             const price = parseFloat(checkbox.getAttribute('price'));
             const quantityInput = document.querySelector(`.product-quantity[id="${checkbox.id}"]`);
             const quantity = parseInt(quantityInput.value);
+            // IdEachProduct += checkbox.id + "_";
             totalPrice += price * quantity;
             totalPrice = parseFloat(totalPrice);
         }
     })
+    // IdEachProduct = IdEachProduct.slice(0, -1);
+    // console.log(IdEachProduct);
     idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
     RenderQR();
 }
@@ -257,15 +261,19 @@ async function checkPaid() {
         const response = await fetch('https://script.googleusercontent.com/macros/echo?user_content_key=IHfKTAyxTC8iCJ9h6-hgXa5EQwg-2aeWlJdhZcTctLuzbxftk98qgXkIKOZpDkffNp00crMvkFxN5WKByn-1se3Gg66p2t4Ym5_BxDlH2jW0nuo2oDemN9CCS2h10ox_1xSncGQajx_ryfhECjZEnDDJKPsIih3RRDyacyIlDAuCPBanFIvAa5lM9k7PhC5aPAk9hO5Xxk29A1fB5VmhVI_Dl7Osk4xltA9Z3DeMLUmTibYuxZaST9z9Jw9Md8uu&lib=MqRp4dR7lDrfzYFouImgZ_AMUpPdY05-S')
         const result = await response.json();
         const lastedPaid = result.data[result.data.length - 1];
+        let IdEachProduct = "";
         if (lastedPaid["Giá trị"] == totalPrice && lastedPaid["Mô tả"].includes(idTransfer)) {
             PaidSuccess = true;
             console.log("Đã thanh toán thành công!");
             totalPrice = 0;
             document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
                 if (checkbox.checked) {
+                    IdEachProduct += checkbox.id + "_";
                     RemoveFromCart(checkbox.id);
                 }
             })
+            IdEachProduct = IdEachProduct.slice(0, -1);
+            console.log(IdEachProduct);
             PopUpSuccess(2500);
             ClearPay(1000);
             document.querySelectorAll('.checkedBuy').forEach((checkboxs) => {
