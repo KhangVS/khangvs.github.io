@@ -20,7 +20,7 @@ const url_bank = 'https://api.vietqr.io/v2/banks';
 
 localStorage.removeItem("newAdd")
 localStorage.removeItem("timer");
-
+ifCartNothing();
 // fetch(url_bank)
 // .then(response => response.json())
 // .then(data => {
@@ -104,10 +104,24 @@ const options = {
     },
     body: JSON.stringify(request) // Add your request body here
 };
-
 function RemoveModal() {
     document.querySelector(".modal-background").style.display = 'none';
 }
+function ifCartNothing() {
+    if (!localStorage.getItem("products")) {
+        PaidSuccessTotal = true;
+        document.getElementById('modal').style.display = 'none';
+        document.querySelector(".slider").innerHTML += `<p id="checkGio" style="
+        margin-top:20px;
+        font-size:22px;
+        font-weight: bold;
+        ">Hãy thêm vào giỏ hàng để lựa chọn thanh toán</p>`;
+        if (document.querySelector(".ClickedBuy")) {
+            document.querySelector(".ClickedBuy").remove();
+        }
+    }
+}
+ifCartNothing()
 
 function Copy(id) {
     setTimeout(() => {
@@ -196,8 +210,7 @@ document.querySelectorAll('.checkedBuy').forEach((checkboxs) => {
 document.querySelectorAll('.product-quantity').forEach((quantityInputs) => {
     quantityInputs.addEventListener('input', calculate);
 })
-
-calculate();
+if(localStorage.getItem("products")) calculate();
 
 // Example list of products
 // const products = [
@@ -213,21 +226,7 @@ calculate();
 // localStorage.setItem('products', productsJSON);
 
 // Retrieve the JSON string from localStorage
-function ifCartNothing() {
-    if (!localStorage.getItem("products")) {
-        PaidSuccessTotal = true;
-        document.getElementById('modal').style.display = 'none';
-        document.querySelector(".slider").innerHTML += `<p id="checkGio" style="
-        margin-top:20px;
-        font-size:22px;
-        font-weight: bold;
-        ">Hãy thêm vào giỏ hàng để lựa chọn thanh toán<span style="color:green" id="totalMoney"></span></p>`;
-        if (document.querySelector(".ClickedBuy")) {
-            document.querySelector(".ClickedBuy").remove();
-        }
-    }
-}
-ifCartNothing();
+
 
 // CHECK KIỂM TRA THANH TOÁN:
 // THANH TOAN DON HANG idTransfer- Ma GD ACSP/ mR124751

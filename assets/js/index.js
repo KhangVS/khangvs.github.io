@@ -15,8 +15,8 @@ fetch("../../testdatabase.xlsx")
         jsonData.forEach((row, rowIndex) => {
             if (rowIndex > 0) {
                 let ok = false;
-                let newProduct = `<div class="products" id = ${count} onclick="RenderMoreAboutProducts(this.id)">`
-                newProduct += `<div class="describe">`;
+                let newProduct = `<div class="products" value = ${count} onclick="RenderMoreAboutProducts(this.attributes.value)">`
+                newProduct += `<div class="describe" value = ${count} onclick="RenderMoreAboutProducts(this.attributes.value)">`;
                 row.forEach((smallCell, pos) => {
                     if (pos == 1) newProduct += `<div class="image"><img src="${smallCell}" width="300px" class="render-image"></div>`
                     if (pos == 2) newProduct += `<div class="name-products"><p>Type: ${smallCell}</p></div>`;
@@ -26,7 +26,7 @@ fetch("../../testdatabase.xlsx")
                     }
                     else ok = true;
                 })
-                newProduct += `<button class="detail"><a href="more.html">Show More</a></button>`;
+                newProduct += `<button class="detail"><a href="#" value = ${count} onclick="RenderMoreAboutProducts(this.attributes.value)">Show More</a></button>`;
                 newProduct += `</div>`; newProduct += `</div>`;
                 count++;
                 if (ok) document.querySelector('.slider').innerHTML += newProduct;
@@ -39,7 +39,8 @@ fetch("../../testdatabase.xlsx")
     })
     .catch(error => console.error('Lỗi r ae =_))', error));
 
-function RenderMoreAboutProducts(value) {
+function RenderMoreAboutProducts(values) {
+    values = values.value;
     fetch('../../testdatabase.xlsx')
         .then(response => response.arrayBuffer())
         .then(data => {
@@ -57,6 +58,7 @@ function RenderMoreAboutProducts(value) {
                     if (rowIndex > 0) {
                         if (cell == value) {
                             localStorage.setItem("id", value);
+                            location.href = './more.html';
                         }
                     }
                 });
