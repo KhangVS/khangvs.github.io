@@ -72,12 +72,12 @@ if (localStorage.getItem('products')) {
         // totalPrice += product.price * product.quantity;
     });
     var totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    // if(totalPrice === 0 && Products.length === 0) totalPriceComma = '0'
-    // slider.innerHTML += `<p id="checkGio" style="
-    // margin-top:20px;
-    // font-size:22px;
-    // font-weight: bold;
-    // ">Tổng tiền: <span style="color:green" id="totalMoney">${totalPriceComma}₫</span></p>`
+    if(totalPrice === 0 && Products.length === 0) totalPriceComma = '0'
+    slider.innerHTML += `<p id="checkGio" class="checkGio" style="
+    margin-top:20px;
+    font-size:22px;
+    font-weight: bold;
+    ">Tổng tiền: <span style="color:#157811" id="totalMoney">${totalPriceComma}₫</span></p>`
     // slider.innerHTML += `<img id="qrPay">`
     slider.innerHTML += `
     <div class="button ClickedBuy">
@@ -181,6 +181,8 @@ const calculate = () => {
             totalPrice = parseFloat(totalPrice);
         }
     })
+    totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.querySelector("#totalMoney").innerHTML = `${totalPriceComma}₫`;
     // IdEachProduct = IdEachProduct.slice(0, -1);
     // console.log(IdEachProduct);
     idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
@@ -240,7 +242,7 @@ if (document.querySelector(".ClickedBuy")) {
 
 function PopUpSuccess(time) {
     document.querySelector('.payment-success-box').style.display = 'flex';
-    document.querySelector('.payment-success-box').style.animation = "move 2.3s ease-out forwards";
+    document.querySelector('.payment-success-box').style.animation = "move 3s ease-out forwards";
     setTimeout(() => {
         document.querySelector('.payment-success-box').style.display = 'none';
     }, time)
@@ -249,7 +251,7 @@ function PopUpSuccess(time) {
 function ClearPay(time) {
     setTimeout(() => {
         document.querySelector('.modal-background').style.display = 'none';
-        localStorage.removeItem("timer");
+        // localStorage.removeItem("timer");
         clearInterval(a);
         clearInterval(b);
     }, time)
@@ -274,7 +276,7 @@ async function checkPaid() {
             })
             IdEachProduct = IdEachProduct.slice(0, -1);
             console.log(IdEachProduct);
-            PopUpSuccess(2500);
+            PopUpSuccess(3500);
             ClearPay(1000);
             document.querySelectorAll('.checkedBuy').forEach((checkboxs) => {
                 checkboxs.checked = false;
@@ -315,19 +317,19 @@ function StartPay() {
                 minutes: m,
                 seconds: s
             }
-            localStorage.setItem('timer', JSON.stringify(arrayTimer));
+            // localStorage.setItem('timer', JSON.stringify(arrayTimer));
         }
-        if (!localStorage.getItem('timer')) {
-            setTimerLocalStore(minutes, seconds);
-        }
-        if (localStorage.getItem('timer')) {
-            minutes = JSON.parse(localStorage.getItem('timer')).minutes;
-            seconds = JSON.parse(localStorage.getItem('timer')).seconds;
+        // if (!localStorage.getItem('timer')) {
+        //     setTimerLocalStore(minutes, seconds);
+        // }
+        // if (localStorage.getItem('timer')) {
+        //     minutes = JSON.parse(localStorage.getItem('timer')).minutes;
+        //     seconds = JSON.parse(localStorage.getItem('timer')).seconds;
             document.querySelector('.timer').innerHTML = `0${minutes}:${seconds}`;
 
             const a = setInterval(function () {
                 timer();
-                console.log("timer")
+                console.log(minutes + ":" + seconds)
             }, 1000)
             function timer() {
                 seconds--;
@@ -340,22 +342,27 @@ function StartPay() {
                     stringseconds = `0${seconds}`;
                 }
                 document.querySelector('.timer').innerHTML = `0${minutes}:${stringseconds}`;
-                setTimerLocalStore(minutes, seconds);
+                // setTimerLocalStore(minutes, seconds);
                 if (minutes <= 0 && seconds <= 0) {
                     document.querySelector('.timer').innerHTML = "00:00";
                     clearInterval(a);
                     document.getElementById("qrPay").src = ``;
-                    localStorage.removeItem("timer");
                 }
             }
-        }
+        // }
 
         var b = setInterval(function () {
+            if(document.getElementById("modal").style.display == 'none'){
+                minutes = 2;seconds = 30;
+                document.querySelector('.timer').innerHTML = "00:00";
+                document.getElementById("modal").style.display = "none"
+                clearInterval(a);
+                clearInterval(b);
+            }
             if (minutes <= 0 && seconds <= 0) {
                 clearInterval(b);
             }
             checkPaid();
         }, 2000)
-
     }
 }
