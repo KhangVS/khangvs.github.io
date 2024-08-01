@@ -39,8 +39,8 @@ fetch("../../testdatabase.xlsx")
     })
     .catch(error => console.error('Lỗi r ae =_))', error));
 
-function RenderMoreAboutProducts(values) {
-    values = values.value;
+function RenderMoreAboutProducts(value) {
+    value = value.value;
     fetch('../../testdatabase.xlsx')
         .then(response => response.arrayBuffer())
         .then(data => {
@@ -58,7 +58,7 @@ function RenderMoreAboutProducts(values) {
                     if (rowIndex > 0) {
                         if (cell == value) {
                             localStorage.setItem("id", value);
-                            location.href = './more.html';
+                            location.href = 'more.html';
                         }
                     }
                 });
