@@ -62,7 +62,7 @@ if (localStorage.getItem('products')) {
         </div>
         <i id="${product.id}" class="fa-solid fa-square-xmark deleteProduct" onclick="RemoveFromCart(this.id)"></i>
         <p class="select">Chọn:</p>
-        <input class="checkedBuy" id="${product.id}" price="${product.price * product.quantity}" type="checkbox" style="
+        <input class="checkedBuy" quantity="" id="${product.id}" price="${product.price}" type="checkbox" style="
         height: 25px;
         width: 25px;
         background-color: #eee;
@@ -119,6 +119,7 @@ function ifCartNothing() {
         if (document.querySelector(".ClickedBuy")) {
             document.querySelector(".ClickedBuy").remove();
         }
+        // if(document.querySelector("#checkGio")) document.querySelector("#checkGio").remove();
     }
 }
 ifCartNothing()
@@ -162,7 +163,7 @@ function RemoveFromCart(btnId) {
     })
     ifCartNothing();
 }
-let idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
+let idTransfer = idClientCheck.trim().toUpperCase();
 function RenderQR() {
     if (localStorage.getItem("products")) {
         totalPrice = parseFloat(totalPrice);
@@ -196,10 +197,11 @@ const calculate = () => {
         }
     })
     totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if(totalPrice == 0) totalPriceComma = "0,000"
     document.querySelector("#totalMoney").innerHTML = `${totalPriceComma}₫`;
     // IdEachProduct = IdEachProduct.slice(0, -1);
     // console.log(IdEachProduct);
-    idTransfer = idClientCheck.trim().toUpperCase() + totalPrice + "VND";
+    idTransfer = idClientCheck.trim().toUpperCase();
     RenderQR();
 }
 
@@ -256,6 +258,18 @@ function ClearPay(time) {
     }, time)
 }
 
+// function ResetAll(){
+//     document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
+//         checkbox.checked = false;
+//     });
+//     document.querySelectorAll('.product-quantity').forEach((quantityInput) => {
+//         quantityInput.value = 1;
+//     });
+//     document.querySelector("#totalMoney").innerHTML = "0,000₫";
+//     document.querySelector('.payment-success-box').style.display = 'none';
+//     document.querySelector('.modal-background').style.display = 'none';
+// }
+
 async function checkPaid() {
     if (PaidSuccessTotal) return;
     else {
@@ -263,17 +277,18 @@ async function checkPaid() {
         const result = await response.json();
         const lastedPaid = result.data[result.data.length - 1];
         let IdEachProduct = "";
-        if (lastedPaid["Giá trị"] == totalPrice && lastedPaid["Mô tả"].includes(idTransfer)) {
+        if (lastedPaid["Giá trị"] >= totalPrice && lastedPaid["Mô tả"].includes(idTransfer)) {
             PaidSuccess = true;
             console.log("Đã thanh toán thành công!");
             totalPrice = 0;
             document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
                 if (checkbox.checked) {
-                    IdEachProduct += checkbox.id + "_";
+                    let quantity = document.querySelector(`.product-quantity[id="${checkbox.id}"]`).value;
+                    IdEachProduct += "ID:" + checkbox.id + ",SL:" + quantity;
                     RemoveFromCart(checkbox.id);
                 }
             })
-            IdEachProduct = IdEachProduct.slice(0, -1);
+            // IdEachProduct = IdEachProduct.slice(0, -1);
             console.log(IdEachProduct);
             PopUpSuccess(3500);
             ClearPay(1000);
@@ -283,11 +298,46 @@ async function checkPaid() {
             document.querySelectorAll('.product-quantity').forEach((quantityInputs) => {
                 quantityInputs.value = 0;
             })
+            ifCartNothing();
         }
         else {
             console.log("Đang kiểm tra chuyển tiền")
         }
 
+    }
+}
+
+function Discount(){
+    const textDiscount = document.getElementById('discount-input').value;
+    let discountCode = [
+        {
+            code: "50OFFKHANG",
+            value: 0.5,
+            description: "giảm giá 50% cho tổng số tiền"
+        },
+        {
+            code: "30OFFKHANG",
+            value: 0.3,
+            description: "giảm giá 30% cho tổng số tiền"
+        },
+        {
+            code: "code50",
+            value: 0.5,
+            description: "giảm giá 50% cho tổng số tiền"
+        }
+    ]
+    let discountFound = discountCode.find(obj => obj.code === textDiscount);
+    if (discountFound) {
+        let totalAfterDiscount = totalPrice * (1 - discountFound.value);
+        totalPrice = totalAfterDiscount;
+        totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        document.querySelector('.total-price').innerHTML = totalPriceComma + " VNĐ";
+        console.log("Code khuyến mãi hợp lệ!");
+        alert("Khuyến mãi đã áp dụng!" + "Đơn giản được " + discountFound.description);
+        RenderQR();
+        document.querySelector('.discount-input').attributes += 'disabled';
+    } else {
+        console.log("Code khuyến mãi không tồn tại!");
     }
 }
 
@@ -302,6 +352,7 @@ function StartPay() {
             }
         });
         document.querySelector('.total-price').innerHTML = totalPriceComma + " VNĐ";
+        document.getElementById("apply-discount").addEventListener('click', Discount);
 
         var minutes = 2;
         var seconds = 30;
