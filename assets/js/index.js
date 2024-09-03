@@ -68,81 +68,83 @@ function RenderMoreAboutProducts(value) {
         .catch(error => console.error('Lỗi r ae =_))', error));
 }
 
-function SearchThroughFile(event) {
-    var valueProducts = "";
-    fetch('../../testdatabase.xlsx')
-        .then(response => response.arrayBuffer())
-        .then(data => {
-            const workbook = XLSX.read(data, { type: 'array' });
+// function SearchThroughFile(event) {
+//     var valueProducts = "";
+//     fetch('../../testdatabase.xlsx')
+//         .then(response => response.arrayBuffer())
+//         .then(data => {
+//             const workbook = XLSX.read(data, { type: 'array' });
 
-            // Lấy sheet đầu tiên
-            const firstSheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[firstSheetName];
+//             // Lấy sheet đầu tiên
+//             const firstSheetName = workbook.SheetNames[0];
+//             const worksheet = workbook.Sheets[firstSheetName];
 
-            // Chuyển đổi sheet thành JSON
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+//             // Chuyển đổi sheet thành JSON
+//             const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
-            // Tạo hàng cho từng hàng trong sheet
-            jsonData.forEach((row, rowIndex) => {
-                if (rowIndex > 0) {
-                    row.forEach((smallCell, pos) => {
-                        if (pos == 2) {
-                            valueProducts = smallCell;
-                            valueProducts = valueProducts.trim().toLowerCase();
-                            if (valueProducts.includes(event)) {
-                                for (const cell in worksheet) {
-                                    if (cell[0] === '!') continue;
-                                    const cellRef = XLSX.utils.decode_cell(cell);
-                                    const rowIndex = cellRef.r + 1;  // Adding 1 to get 1-based index
-                                    const colIndex = cellRef.c + 1;  // Adding 1 to get 1-based index
-                                    var temp2 = worksheet[cell].v;
-                                    if (typeof temp2 === "string" && colIndex == 3 && rowIndex > 1) {
-                                        temp2 = temp2.trim().toLowerCase();
-                                        if (temp2.includes(event)) {
-                                            var char = String.fromCharCode(65 + (colIndex - 3));// Kiêu Cell đinh dạng như la A1, B2;
-                                            var temp = char + (rowIndex).toString();
-                                            document.getElementById(worksheet[temp].v).classList.add("disable")
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    })
-                }
-            });
-            for (var i = 1; i <= count; i++) {
-                document.getElementById(i).classList.toggle("disable");
-            }
-            // return false;
-        })
-        .catch(error => console.error('Lỗi r ae =_))', error));
-}
+//             // Tạo hàng cho từng hàng trong sheet
+//             jsonData.forEach((row, rowIndex) => {
+//                 if (rowIndex > 0) {
+//                     row.forEach((smallCell, pos) => {
+//                         if (pos == 2) {
+//                             valueProducts = smallCell;
+//                             valueProducts = valueProducts.trim().toLowerCase();
+//                             if (valueProducts.includes(event)) {
+//                                 for (const cell in worksheet) {
+//                                     if (cell[0] === '!') continue;
+//                                     const cellRef = XLSX.utils.decode_cell(cell);
+//                                     const rowIndex = cellRef.r + 1;  // Adding 1 to get 1-based index
+//                                     const colIndex = cellRef.c + 1;  // Adding 1 to get 1-based index
+//                                     var temp2 = worksheet[cell].v;
+//                                     if (typeof temp2 === "string" && colIndex == 3 && rowIndex > 1) {
+//                                         temp2 = temp2.trim().toLowerCase();
+//                                         if (temp2.includes(event)) {
+//                                             var char = String.fromCharCode(65 + (colIndex - 3));// Kiêu Cell đinh dạng như la A1, B2;
+//                                             var temp = char + (rowIndex).toString();
+//                                             document.getElementById(worksheet[temp].v).classList.add("disable")
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                         }
+//                     })
+//                 }
+//             });
+//             for (var i = 1; i <= count; i++) {
+//                 document.getElementById(i).classList.toggle("disable");
+//             }
+//             // return false;
+//         })
+//         .catch(error => console.error('Lỗi r ae =_))', error));
+// }
 
 function Enter(e) {
     var code = (e.keyCode ? e.keyCode : e.which);
+    // Nút enter
     if (code == 13) {
-        OnChangeSearch();
+        alert("a")
     }
 }
 
-function OnCheckSearch() {
-    var valueSearch = document.getElementById("search-input").value
-    if (valueSearch == "" || valueSearch == " ") {
-        for (var i = 1; i <= count; i++) {
-            document.getElementById(i).classList.remove('disable');
-        }
-    }
-}
+function OnCheckSearch(){
+    const RawInputVal = document.getElementById("search-input").value;
+    const InputValLower = RawInputVal.trim().toLowerCase();
 
-function OnChangeSearch() {
-    var valueSearch = document.getElementById("search-input").value
-    if (valueSearch == "" || valueSearch == " ") {
-        for (var i = 1; i <= count; i++) {
-            document.getElementById(i).classList.remove('disable');
-        }
-    }
-    else {
-        valueSearch = valueSearch.trim().toLowerCase();
-        SearchThroughFile(valueSearch);
+    const AllNameProducts = document.querySelectorAll(".name-products");
+    if(RawInputVal == '' || RawInputVal == " "){
+        AllNameProducts.forEach((e) =>{
+            e.parentElement.parentElement.classList.remove('disable');
+        })
+    }else{
+        AllNameProducts.forEach((e) =>{
+            let nameEach = e.firstElementChild.innerHTML;
+            nameEach = nameEach.trim().toLowerCase();
+            console.log(nameEach.includes(InputValLower))
+            if(nameEach.includes(InputValLower)){
+                e.parentElement.parentElement.classList.remove('disable')
+            }else{
+                e.parentElement.parentElement.classList.add('disable')
+            }
+        })
     }
 }
