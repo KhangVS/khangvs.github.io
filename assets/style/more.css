@@ -377,7 +377,7 @@ body {
     background-color: rgb(0, 129, 227);
     padding: 12px 24px;
     transition: all 0.7s ease;
-    left: 32%;
+    left: 15%;
 }
 
 .ClickedBuy:hover {
@@ -399,12 +399,12 @@ body {
 }
 
 .checkGio{
-    position: absolute;
+    position: relative;
     margin-top: 20px;
     font-size: 22px;
     font-weight: bold;
-    left:5%;
-    bottom: 20%;
+    left: -15%;
+    bottom: 25px;
     transition: all 0.8s;
 }
 

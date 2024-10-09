@@ -5,6 +5,7 @@ const MB_ID = 970422;
 const template = "qDNYS5j";
 let PaidSuccess = false;
 let PaidSuccessTotal = false;
+let HavedUsedDiscount = false;
 let myBankAccount = {
     bank: "bidv",
     accountNumber: Bidv_Acc,
@@ -72,7 +73,7 @@ if (localStorage.getItem('products')) {
         // totalPrice += product.price * product.quantity;
     });
     var totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    if(totalPrice === 0 && Products.length === 0) totalPriceComma = '0'
+    // if(totalPrice === 0 && Products.length === 0) totalPriceComma = '0'
     slider.innerHTML += `<p id="checkGio" class="checkGio" style="
     margin-top:20px;
     font-size:22px;
@@ -104,22 +105,18 @@ const options = {
     },
     body: JSON.stringify(request) // Add your request body here
 };
-function RemoveModal() {
-    document.querySelector(".modal-background").style.display = 'none';
-}
+
 function ifCartNothing() {
     if (!localStorage.getItem("products")) {
         PaidSuccessTotal = true;
         document.getElementById('modal').style.display = 'none';
+        if (document.querySelector(".ClickedBuy")) document.querySelector(".ClickedBuy").remove();
+        if(document.querySelector(".checkGio")) document.querySelector(".checkGio").remove();
         document.querySelector(".slider").innerHTML += `<p id="checkGio" style="
         margin-top:20px;
         font-size:22px;
         font-weight: bold;
         ">Hãy thêm vào giỏ hàng để lựa chọn thanh toán</p>`;
-        if (document.querySelector(".ClickedBuy")) {
-            document.querySelector(".ClickedBuy").remove();
-        }
-        // if(document.querySelector("#checkGio")) document.querySelector("#checkGio").remove();
     }
 }
 ifCartNothing()
@@ -185,6 +182,7 @@ function RenderQR() {
 
 const calculate = () => {
     totalPrice = 0;
+    var IdEachProduct = "";
     // let IdEachProduct = "";
     document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
         if (checkbox.checked) {
@@ -194,8 +192,10 @@ const calculate = () => {
             // IdEachProduct += checkbox.id + "_";
             totalPrice += price * quantity;
             totalPrice = parseFloat(totalPrice);
+            IdEachProduct += "ID:" + checkbox.id + ", SL:" + quantity + "\n";
         }
     })
+    console.log(IdEachProduct)
     totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     if(totalPrice == 0) totalPriceComma = "0,000"
     document.querySelector("#totalMoney").innerHTML = `${totalPriceComma}₫`;
@@ -284,7 +284,7 @@ async function checkPaid() {
             document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
                 if (checkbox.checked) {
                     let quantity = document.querySelector(`.product-quantity[id="${checkbox.id}"]`).value;
-                    IdEachProduct += "ID:" + checkbox.id + ",SL:" + quantity;
+                    IdEachProduct += "ID:" + checkbox.id + ", SL:" + quantity;
                     RemoveFromCart(checkbox.id);
                 }
             })
@@ -295,9 +295,9 @@ async function checkPaid() {
             document.querySelectorAll('.checkedBuy').forEach((checkboxs) => {
                 checkboxs.checked = false;
             })
-            document.querySelectorAll('.product-quantity').forEach((quantityInputs) => {
-                quantityInputs.value = 0;
-            })
+            // document.querySelectorAll('.product-quantity').forEach((quantityInputs) => {
+            //     quantityInputs.value = 0;
+            // })
             ifCartNothing();
         }
         else {
@@ -324,34 +324,56 @@ function Discount(){
             code: "code50",
             value: 0.5,
             description: "giảm giá 50% cho tổng số tiền"
+        },
+        {
+            code: "okbri",
+            value: 0.5,
+            description: "giảm giá 50% cho tổng số tiền"
         }
     ]
+    
     let discountFound = discountCode.find(obj => obj.code === textDiscount);
-    if (discountFound) {
+    let codeUsed =  textDiscount;
+    if (discountFound && HavedUsedDiscount == false) {
         let totalAfterDiscount = totalPrice * (1 - discountFound.value);
         totalPrice = totalAfterDiscount;
         totalPriceComma = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        document.querySelector('.total-price').innerHTML = totalPriceComma + " VNĐ";
+        document.querySelectorAll('.total-price').forEach((e)=>{
+            e.innerHTML = totalPriceComma + " VNĐ";
+        })
         console.log("Code khuyến mãi hợp lệ!");
         alert("Khuyến mãi đã áp dụng!" + "Đơn giản được " + discountFound.description);
         RenderQR();
-        document.querySelector('.discount-input').attributes += 'disabled';
-    } else {
+        document.getElementById('discount-input').attributes += 'disabled';
+        HavedUsedDiscount = true;
+        
+    } else if(!discountCode){
         console.log("Code khuyến mãi không tồn tại!");
+    }else if(HavedUsedDiscount){
+        alert("Bạn đã dùng code khuyến mãi: " + codeUsed);
     }
 }
 
 function StartPay() {
     if (totalPrice > 0 && totalPrice) {
+        
         var showName = document.querySelector('#name-products');
+        var stringName = ""
         showName.innerHTML = " ";
         document.querySelectorAll('.checkedBuy').forEach((checkbox) => {
             if (checkbox.checked) {
                 const NameProducts = document.querySelector(`.product-name[id="${checkbox.id}"]`);
-                showName.innerHTML += NameProducts.innerHTML + ", ";
+                const quantityInput = document.querySelector(`.product-quantity[id="${checkbox.id}"]`);
+                const quantity = parseInt(quantityInput.value);
+                if(quantity > 1) stringName += NameProducts.innerHTML + ` (${quantity})` + ", ";
+                else stringName += NameProducts.innerHTML + ", ";
             }
         });
-        document.querySelector('.total-price').innerHTML = totalPriceComma + " VNĐ";
+        stringName = stringName.substring(0,stringName.length - 2);
+        showName.innerHTML = stringName;
+        document.querySelectorAll('.total-price').forEach((e)=>{
+            e.innerHTML = totalPriceComma + " VNĐ";
+        })
         document.getElementById("apply-discount").addEventListener('click', Discount);
 
         var minutes = 2;
@@ -404,7 +426,6 @@ function StartPay() {
         var b = setInterval(function () {
             if(document.getElementById("modal").style.display == 'none'){
                 minutes = 2;seconds = 30;
-                document.querySelector('.timer').innerHTML = "00:00";
                 document.getElementById("modal").style.display = "none"
                 clearInterval(a);
                 clearInterval(b);
@@ -415,4 +436,8 @@ function StartPay() {
             checkPaid();
         }, 2000)
     }
+}
+
+function RemoveModal() {
+    document.querySelector(".modal-background").style.display = 'none';
 }
